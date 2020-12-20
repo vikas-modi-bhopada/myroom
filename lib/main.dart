@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auths/loginPage.dart';
 import 'package:flutter_auths/pages/loginScreen.dart';
 import 'package:flutter_auths/pages/tasks.dart';
+
+import 'House/homeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,9 +39,9 @@ class _HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           FirebaseUser user = snapshot.data;
-          return TasksPage(uid: user.uid);
+          return ListOfHouse();
         } else {
-          return LoginScreen();
+          return LoginPage();
         }
       },
     );

@@ -1,5 +1,7 @@
+/*
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auths/House/homeScreen.dart';
 import 'package:flutter_auths/controllers/authentications.dart';
 import 'package:flutter_auths/pages/signupScreen.dart';
 import 'package:flutter_auths/pages/tasks.dart';
@@ -29,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => TasksPage(uid: user.uid)));
+                      builder: (context) => ListOfHouse()));
                 }),
                 child: Image(
                   image: AssetImage('assets/signin.png'),
@@ -131,3 +134,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+*/

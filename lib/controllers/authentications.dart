@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ showErrDialog(BuildContext context, String err) {
   FocusScope.of(context).requestFocus(new FocusNode());
   return showDialog(
     context: context,
+    // ignore: deprecated_member_use
     child: AlertDialog(
       title: Text("Error"),
       content: Text(err),
@@ -29,6 +31,8 @@ showErrDialog(BuildContext context, String err) {
 
 // many unhandled google error exist
 // will push them soon
+
+// ignore: missing_return
 Future<bool> googleSignIn() async {
   GoogleSignInAccount googleSignInAccount = await gooleSignIn.signIn();
 
@@ -55,7 +59,7 @@ Future<FirebaseUser> signin(
     String email, String password, BuildContext context) async {
   try {
     AuthResult result =
-        await auth.signInWithEmailAndPassword(email: email, password: email);
+        await auth.signInWithEmailAndPassword(email: email, password: password);
     FirebaseUser user = result.user;
     // return Future.value(true);
     return Future.value(user);
@@ -91,12 +95,17 @@ Future<FirebaseUser> signin(
 }
 
 // change to Future<FirebaseUser> for returning a user
-Future<FirebaseUser> signUp(
-    String email, String password, BuildContext context) async {
+Future<FirebaseUser> signUp(String email, String password, String userNmae,
+    BuildContext context) async {
   try {
     AuthResult result = await auth.createUserWithEmailAndPassword(
-        email: email, password: email);
+        email: email, password: password);
     FirebaseUser user = result.user;
+    Firestore.instance
+        .collection('users')
+        .document()
+        .setData({'userid': user.uid, 'displayName': userNmae});
+
     return Future.value(user);
     // return Future.value(true);
   } catch (error) {
