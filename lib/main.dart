@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auths/loginPage.dart';
-import 'package:flutter_auths/pages/loginScreen.dart';
-import 'package:flutter_auths/pages/tasks.dart';
+import 'package:flutter_auths/welcomePage.dart';
 
 import 'House/homeScreen.dart';
 
@@ -41,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           FirebaseUser user = snapshot.data;
           return ListOfHouse();
         } else {
-          return LoginPage();
+          return WelcomePage();
         }
       },
     );
