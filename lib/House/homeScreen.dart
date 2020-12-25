@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auths/House/uplodDetails.dart';
 import 'package:flutter_auths/controllers/authentications.dart';
-import 'package:flutter_auths/loginPage.dart';
 
 import '../main.dart';
 
@@ -211,12 +211,16 @@ class _ListOfHouseState extends State<ListOfHouse> {
                   colors: [Color(0xfffbb448), Color(0xffe46b10)])),
         ),
       ),
-      drawer: Drawer(
+      drawer: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+          child: sideNav()),
+
+      /*drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Vikas Modi"),
+              accountName: Text("Vikas"),
               accountEmail: Text("vikas977@gmail.com"),
               currentAccountPicture: CircleAvatar(
                 child: ClipRRect(
@@ -236,24 +240,15 @@ class _ListOfHouseState extends State<ListOfHouse> {
             ),
             ListTile(
               title: Text("Log Out"),
-              onTap: () {
-                signOutUser();
-                FirebaseAuth.instance.onAuthStateChanged.listen((user) {
-                  if (user == null) {
-                     Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage()));
-                  } else {
-                    print('User is signed in!');
-                  }
-                });
-               
-              },
-            ),
+              onTap: () => signOutUser().then((value) {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                    (Route<dynamic> route) => false);
+              }),
+            )
           ],
         ),
-      ),
+      ),*/
       body: Column(
         children: [
           SizedBox(
@@ -264,5 +259,57 @@ class _ListOfHouseState extends State<ListOfHouse> {
         ],
       ),
     );
+  }
+
+  Drawer sideNav() {
+    return Drawer(
+        child: Stack(children: <Widget>[
+      //first child be the blur background
+      BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          //this is dependent on the import statment above
+          child: Container(
+              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5)))),
+      ListView(padding: EdgeInsets.zero, children: <Widget>[
+        UserAccountsDrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+          ),
+          currentAccountPicture: CircleAvatar(
+            child: ClipRRect(
+              child: Image.asset('assets/images/splash_screen.png'),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+          ),
+          accountName: Text("Sawan kag"),
+          accountEmail: Text("sawankag1999@gmail.com"),
+        ),
+        ListTile(
+          title: Center(
+            child: Text(
+              "Upload Room Details",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UploadRoomDetails()));
+          },
+        ),
+        ListTile(
+          title: Center(
+            child: Text(
+              "Log Out",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          onTap: () => signOutUser().then((value) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => HomePage()),
+                (Route<dynamic> route) => false);
+          }),
+        )
+      ])
+    ]));
   }
 }
