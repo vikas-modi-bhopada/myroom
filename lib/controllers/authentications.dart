@@ -124,12 +124,12 @@ Future<FirebaseUser> signUp(String email, String password, String userNmae,
   }
 }
 
-Future<bool> signOutUser() async {
-  FirebaseUser user = await auth.currentUser();
+ signOutUser() async {
+  /*FirebaseUser user = await auth.currentUser();
   print(user.providerData[1].providerId);
   if (user.providerData[1].providerId == 'google.com') {
     await gooleSignIn.disconnect();
-  }
+  }*/
   await auth.signOut();
-  return Future.value(true);
+  //return Future.value(true);
 }

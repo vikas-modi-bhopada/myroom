@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auths/House/uplodDetails.dart';
 import 'package:flutter_auths/controllers/authentications.dart';
@@ -297,18 +298,24 @@ class _ListOfHouseState extends State<ListOfHouse> {
           },
         ),
         ListTile(
-          title: Center(
-            child: Text(
-              "Log Out",
-              style: TextStyle(color: Colors.white),
+            title: Center(
+              child: Text(
+                "Log Out",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
-          onTap: () => signOutUser().then((value) {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => HomePage()),
-                (Route<dynamic> route) => false);
-          }),
-        )
+            onTap: () {
+              signOutUser();
+              FirebaseAuth.instance.onAuthStateChanged.listen((user) {
+                if (user == null) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                }
+                else{
+                  print("User is not signout");
+                }
+              });
+            })
       ])
     ]));
   }
