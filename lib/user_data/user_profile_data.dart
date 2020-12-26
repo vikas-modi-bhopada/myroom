@@ -15,4 +15,8 @@ class UserData {
     }).then((value) => print('User information added'))
     .catchError((e) => print('Failed to add user information'));
   }
+
+  getInformation() async{
+    return await Firestore.instance.collection('user').getDocuments();
+  }
 }

@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auths/House/uplodDetails.dart';
 import 'package:flutter_auths/controllers/authentications.dart';
+import 'package:flutter_auths/user_data/user_profile_data.dart';
 
 import '../main.dart';
 
@@ -13,6 +15,11 @@ class ListOfHouse extends StatefulWidget {
 }
 
 class _ListOfHouseState extends State<ListOfHouse> {
+  UserData userData = new UserData();
+  QuerySnapshot querySnapshot;
+  String _email;
+  String _username;
+
   Widget profilePicture() {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16, top: 32),
@@ -197,6 +204,35 @@ class _ListOfHouseState extends State<ListOfHouse> {
     ));
   }
 
+  Widget _userdataWidget() {
+    if (querySnapshot != null) {
+     _email = querySnapshot.documents[0].data['email_id'];
+     _username = querySnapshot.documents[0].data['username'];
+     return  Column(
+        children: [         
+          SizedBox(
+            height: 10,
+          ),
+          searchBar(),
+          roomList()
+        ],
+      );
+    }
+    else{
+      return Center(child: CircularProgressIndicator(),);
+    }
+  }
+
+  @override
+  void initState() {
+    userData.getInformation().then((results) {
+      setState(() {
+        querySnapshot = results;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -215,50 +251,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
       drawer: Theme(
           data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
           child: sideNav()),
-
-      /*drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text("Vikas"),
-              accountEmail: Text("vikas977@gmail.com"),
-              currentAccountPicture: CircleAvatar(
-                child: ClipRRect(
-                  child: Image.asset('assets/images/splash_screen.png'),
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text("Upload Room Details"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UploadRoomDetails()));
-              },
-            ),
-            ListTile(
-              title: Text("Log Out"),
-              onTap: () => signOutUser().then((value) {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                    (Route<dynamic> route) => false);
-              }),
-            )
-          ],
-        ),
-      ),*/
-      body: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          searchBar(),
-          roomList()
-        ],
-      ),
+      body: _userdataWidget(),
     );
   }
 
@@ -282,8 +275,8 @@ class _ListOfHouseState extends State<ListOfHouse> {
               borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
           ),
-          accountName: Text("Sawan kag"),
-          accountEmail: Text("sawankag1999@gmail.com"),
+          accountName: Text(_username),
+          accountEmail: Text(_email),
         ),
         ListTile(
           title: Center(
@@ -310,8 +303,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
                 if (user == null) {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => HomePage()));
-                }
-                else{
+                } else {
                   print("User is not signout");
                 }
               });
