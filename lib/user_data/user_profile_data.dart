@@ -22,6 +22,7 @@ class UserData {
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.documents.forEach((result) {
            x= result.data["displayName"].toString();
+           print(x);
           //print('${result.data["displayName"]}}');
         });
         return x;

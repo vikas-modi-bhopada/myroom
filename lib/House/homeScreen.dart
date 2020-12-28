@@ -208,6 +208,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
   Widget _userdataWidget() {
     _username = userData.onPressed();
     if (_username != null) {
+      print(_username);
       return Column(
         children: [
           SizedBox(
