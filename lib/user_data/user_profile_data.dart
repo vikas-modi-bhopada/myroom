@@ -21,7 +21,8 @@ class UserData {
           .getDocuments()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.documents.forEach((result) {
-          print('${result.data["displayName"]}}');
+          return result.data;
+          //print('${result.data["displayName"]}}');
         });
       });
     });
