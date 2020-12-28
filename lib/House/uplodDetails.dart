@@ -316,8 +316,8 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
 
   Widget _saveDetailsButton() {
     return InkWell(
-      onTap: () => UserData().onPressed(),
-      // _uplodDetails(location, price, members, beds, bathroom, phoneNo),
+      onTap: () => //UserData().onPressed(),
+       _uplodDetails(location, price, members, beds, bathroom, phoneNo),
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
