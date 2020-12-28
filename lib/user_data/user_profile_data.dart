@@ -20,11 +20,7 @@ class UserData {
           .where('userid', isEqualTo: value.uid)
           .getDocuments()
           .then((QuerySnapshot querySnapshot) {
-        querySnapshot.documents.forEach((result) {
-           x= result.data["displayName"].toString();
-           print(x);
-          //print('${result.data["displayName"]}}');
-        });
+        x = querySnapshot.documents[0].data['displayName'];
         return x;
       });
     });
