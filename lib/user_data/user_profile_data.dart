@@ -16,7 +16,8 @@ class UserData {
   onPressed() {
     FirebaseAuth.instance.currentUser().then((value) async {
       return await Firestore.instance
-          .collection("users")
+          .collection("users").
+          where('userid', isEqualTo: value.uid)
           .getDocuments()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.documents.forEach((result) {
