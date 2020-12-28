@@ -22,7 +22,6 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   File _image;
 
   _imgFromCamera() async {
-    // ignore: deprecated_member_use
     File image = await ImagePicker.pickImage(
         source: ImageSource.camera, imageQuality: 50);
 
@@ -317,7 +316,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
 
   Widget _saveDetailsButton() {
     return InkWell(
-      onTap: () => UserData().getData(),
+      onTap: () => UserData().onPressed(),
       // _uplodDetails(location, price, members, beds, bathroom, phoneNo),
       child: Container(
         width: MediaQuery.of(context).size.width,

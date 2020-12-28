@@ -224,11 +224,12 @@ class _ListOfHouseState extends State<ListOfHouse> {
     }
   }
 
+  var x;
   @override
   void initState() {
     userData.getInformation().then((results) {
       setState(() {
-        documentSnapshot = results;
+        x = results;
       });
     });
     super.initState();
@@ -276,8 +277,8 @@ class _ListOfHouseState extends State<ListOfHouse> {
               borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
           ),
-          accountName: Text(_username),
-          accountEmail: Text(_email),
+          accountName: Text("$x"),
+          accountEmail: Text("$_email"),
         ),
         ListTile(
           title: Center(
