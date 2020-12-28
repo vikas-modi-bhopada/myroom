@@ -1,9 +1,11 @@
 import 'dart:io';
-import 'package:flutter_auths/Widget/bezierContainer.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_auths/Widget/bezierContainer.dart';
+import 'package:flutter_auths/user_data/user_profile_data.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadRoomDetails extends StatefulWidget {
   @override
@@ -11,22 +13,61 @@ class UploadRoomDetails extends StatefulWidget {
 }
 
 class _UploadRoomDetailsState extends State<UploadRoomDetails> {
+  var location;
+  var price;
+  var members;
+  var beds;
+  var phoneNo;
+  var bathroom;
   File _image;
-  Future getImage() async {
+
+  _imgFromCamera() async {
     // ignore: deprecated_member_use
-    final image = await ImagePicker.pickImage(source: ImageSource.camera);
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
+
     setState(() {
       _image = image;
     });
   }
 
-  File _image1;
-  Future getImage1() async {
-    // ignore: deprecated_member_use
-    final image = await ImagePicker.pickImage(source: ImageSource.camera);
+  _imgFromGallery() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+
     setState(() {
-      _image1 = image;
+      _image = image;
     });
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Widget _locationlabel(String data) {
@@ -44,6 +85,9 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           TextField(
             decoration: InputDecoration(
                 border: InputBorder.none, fillColor: Colors.grey, filled: true),
+            onChanged: (val) {
+              location = val;
+            },
           )
         ],
       ),
@@ -64,6 +108,9 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           TextField(
             decoration: InputDecoration(
                 border: InputBorder.none, fillColor: Colors.grey, filled: true),
+            onChanged: (val) {
+              price = val;
+            },
           )
         ],
       ),
@@ -84,6 +131,9 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           TextField(
             decoration: InputDecoration(
                 border: InputBorder.none, fillColor: Colors.grey, filled: true),
+            onChanged: (val) {
+              members = val;
+            },
           )
         ],
       ),
@@ -104,10 +154,28 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           TextField(
             decoration: InputDecoration(
                 border: InputBorder.none, fillColor: Colors.grey, filled: true),
+            onChanged: (val) {
+              beds = val;
+            },
           )
         ],
       ),
     );
+  }
+
+  _uplodDetails(String _location, String _price, String _members, String _beds,
+      String _bathroom, String _phoneNo) {
+    Firestore.instance
+        .collection("RoomDetails")
+        .add({
+          'Location': _location,
+          'Price': _price,
+          'Members': _members,
+          'Beds': _beds,
+          'Mobile': _phoneNo
+        })
+        .then((value) => print('User information added'))
+        .catchError((e) => print('Failed to add user information'));
   }
 
   Widget _bathroomslabel(String data) {
@@ -124,6 +192,9 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           TextField(
             decoration: InputDecoration(
                 border: InputBorder.none, fillColor: Colors.grey, filled: true),
+            onChanged: (val) {
+              bathroom = val;
+            },
           )
         ],
       ),
@@ -188,6 +259,9 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           TextField(
             decoration: InputDecoration(
                 border: InputBorder.none, fillColor: Colors.grey, filled: true),
+            onChanged: (val) {
+              phoneNo = val;
+            },
           )
         ],
       ),
@@ -209,22 +283,22 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
         children: [
           Expanded(
               child: GestureDetector(
-                onTap: () {
-                  getImage();
-                },
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  padding: EdgeInsets.all(8),
-                  decoration: myBoxDecoration(),
-                  child: _image == null
-                      ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-                      : Image.file(_image),
-                ),
-              )),
+            onTap: () {
+              /* UserData().getData();*/
+            },
+            child: Container(
+              margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              padding: EdgeInsets.all(8),
+              decoration: myBoxDecoration(),
+              child: _image == null
+                  ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
+                  : Image.file(_image),
+            ),
+          )),
           Expanded(
             child: GestureDetector(
               onTap: () {
-                getImage1();
+                _showPicker(context);
               },
               child: Container(
                 margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -232,7 +306,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
                 decoration: myBoxDecoration(),
                 child: _image == null
                     ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-                    : Image.file(_image1),
+                    : Image.file(_image),
               ),
             ),
           ),
@@ -243,6 +317,8 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
 
   Widget _saveDetailsButton() {
     return InkWell(
+      onTap: () => UserData().getData(),
+      // _uplodDetails(location, price, members, beds, bathroom, phoneNo),
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
@@ -284,7 +360,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 5),
+                        SizedBox(height: 70),
                         _title(),
                         SizedBox(
                           height: 5,

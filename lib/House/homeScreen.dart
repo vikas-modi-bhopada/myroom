@@ -16,9 +16,9 @@ class ListOfHouse extends StatefulWidget {
 
 class _ListOfHouseState extends State<ListOfHouse> {
   UserData userData = new UserData();
-  QuerySnapshot querySnapshot;
-  String _email;
-  String _username;
+  DocumentSnapshot documentSnapshot;
+  String _email = "";
+  String _username = "";
 
   Widget profilePicture() {
     return Container(
@@ -205,11 +205,11 @@ class _ListOfHouseState extends State<ListOfHouse> {
   }
 
   Widget _userdataWidget() {
-    if (querySnapshot != null) {
-     _email = querySnapshot.documents[0].data['email_id'];
-     _username = querySnapshot.documents[0].data['username'];
-     return  Column(
-        children: [         
+    if (documentSnapshot != null) {
+      _email = documentSnapshot.data['emailId'];
+      _username = documentSnapshot.data['displayName'];
+      return Column(
+        children: [
           SizedBox(
             height: 10,
           ),
@@ -217,9 +217,10 @@ class _ListOfHouseState extends State<ListOfHouse> {
           roomList()
         ],
       );
-    }
-    else{
-      return Center(child: CircularProgressIndicator(),);
+    } else {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     }
   }
 
@@ -227,7 +228,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
   void initState() {
     userData.getInformation().then((results) {
       setState(() {
-        querySnapshot = results;
+        documentSnapshot = results;
       });
     });
     super.initState();

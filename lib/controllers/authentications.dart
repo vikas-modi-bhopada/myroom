@@ -101,10 +101,8 @@ Future<FirebaseUser> signUp(String email, String password, String userNmae,
     AuthResult result = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
-    Firestore.instance
-        .collection('users')
-        .document()
-        .setData({'userid': user.uid, 'displayName': userNmae});
+    Firestore.instance.collection('users').document(user.uid).setData(
+        {'userid': user.uid, 'displayName': userNmae, 'emailId': email});
 
     return Future.value(user);
     // return Future.value(true);
@@ -124,7 +122,7 @@ Future<FirebaseUser> signUp(String email, String password, String userNmae,
   }
 }
 
- signOutUser() async {
+signOutUser() async {
   /*FirebaseUser user = await auth.currentUser();
   print(user.providerData[1].providerId);
   if (user.providerData[1].providerId == 'google.com') {

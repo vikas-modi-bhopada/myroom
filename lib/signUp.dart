@@ -1,7 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_auths/House/homeScreen.dart';
 import 'package:flutter_auths/Widget/bezierContainer.dart';
-import 'package:flutter_auths/user_data/user_profile_data.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -164,7 +163,6 @@ class _SignUpPageState extends State<SignUpPage> {
       onTap: () {
         if (_formKey.currentState.validate()) {
           handleSignup();
-          UserData().addInformation(email, username);
         }
       },
       child: Container(
