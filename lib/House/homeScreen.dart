@@ -18,8 +18,8 @@ class _ListOfHouseState extends State<ListOfHouse> {
   UserData userData = new UserData();
   DocumentSnapshot documentSnapshot;
 
-  String _email = "";
-  String _username = "";
+  var _email;
+  var _username;
 
   Widget profilePicture() {
     return Container(
@@ -279,8 +279,8 @@ class _ListOfHouseState extends State<ListOfHouse> {
               borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
           ),
-          accountName: Text(_username),
-          accountEmail: Text(_email),
+          accountName: Text('$_username'),
+          accountEmail: Text('$_email'),
         ),
         ListTile(
           title: Center(

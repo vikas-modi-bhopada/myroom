@@ -15,15 +15,15 @@ class UserData {
 
   onPressed() {
     FirebaseAuth.instance.currentUser().then((value) async {
-      return await Firestore.instance
+      await Firestore.instance
           .collection("users")
           .where('userid', isEqualTo: value.uid)
           .getDocuments()
           .then((QuerySnapshot querySnapshot) {
         x = querySnapshot.documents[0].data['displayName'];
-        return x;
       });
     });
+    return x;
   }
 
   getData() {
