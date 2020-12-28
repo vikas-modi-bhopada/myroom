@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auths/Widget/bezierContainer.dart';
-import 'package:flutter_auths/user_data/user_profile_data.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,6 +30,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   }
 
   _imgFromGallery() async {
+    // ignore: deprecated_member_use
     File image = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50);
 
@@ -317,7 +317,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   Widget _saveDetailsButton() {
     return InkWell(
       onTap: () => //UserData().onPressed(),
-       _uplodDetails(location, price, members, beds, bathroom, phoneNo),
+          _uplodDetails(location, price, members, beds, bathroom, phoneNo),
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),

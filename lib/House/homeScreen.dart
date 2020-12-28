@@ -205,15 +205,16 @@ class _ListOfHouseState extends State<ListOfHouse> {
     ));
   }
 
+  var x;
   Widget _userdataWidget() {
-    if (map != null) {
+    print(userData.onPressed());
+    if (x != null) {
       map.forEach((key, value) {
-        if(key == 'emailId')
-        _email = value;
-        if(key == 'displayName')
-        _username = value;
-       });
-    
+        if (key == 'emailId') _email = value;
+        if (key == 'displayName') {
+          _username = value;
+        }
+      });
       return Column(
         children: [
           SizedBox(
@@ -230,13 +231,13 @@ class _ListOfHouseState extends State<ListOfHouse> {
     }
   }
 
-  Map<String ,dynamic> map = new Map();
-  
+  Map<String, dynamic> map = new Map();
+
   @override
   void initState() {
     userData.getInformation().then((results) {
       setState(() {
-        map = results;
+        x = results;
       });
     });
     super.initState();
