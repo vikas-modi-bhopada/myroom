@@ -164,7 +164,7 @@ class _SignUpPageState extends State<SignUpPage> {
       onTap: () {
         if (_formKey.currentState.validate()) {
           handleSignup();
-          UserData().addInformation(email, username);
+          
         }
       },
       child: Container(

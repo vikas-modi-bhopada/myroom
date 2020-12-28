@@ -103,8 +103,8 @@ Future<FirebaseUser> signUp(String email, String password, String userNmae,
     FirebaseUser user = result.user;
     Firestore.instance
         .collection('users')
-        .document()
-        .setData({'userid': user.uid, 'displayName': userNmae});
+        .document(user.uid)
+        .setData({'userid': user.uid, 'displayName': userNmae, 'emailId': email});
 
     return Future.value(user);
     // return Future.value(true);
