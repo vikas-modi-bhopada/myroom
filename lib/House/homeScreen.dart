@@ -17,6 +17,7 @@ class ListOfHouse extends StatefulWidget {
 class _ListOfHouseState extends State<ListOfHouse> {
   UserData userData = new UserData();
   DocumentSnapshot documentSnapshot;
+
   String _email = "";
   String _username = "";
 
@@ -205,9 +206,14 @@ class _ListOfHouseState extends State<ListOfHouse> {
   }
 
   Widget _userdataWidget() {
-    if (documentSnapshot != null) {
-      _email = documentSnapshot.data['emailId'];
-      _username = documentSnapshot.data['displayName'];
+    if (map != null) {
+      map.forEach((key, value) {
+        if(key == 'emailId')
+        _email = value;
+        if(key == 'displayName')
+        _username = value;
+       });
+    
       return Column(
         children: [
           SizedBox(
@@ -224,12 +230,13 @@ class _ListOfHouseState extends State<ListOfHouse> {
     }
   }
 
-  var x;
+  Map<String ,dynamic> map = new Map();
+  
   @override
   void initState() {
     userData.getInformation().then((results) {
       setState(() {
-        x = results;
+        map = results;
       });
     });
     super.initState();
@@ -277,8 +284,8 @@ class _ListOfHouseState extends State<ListOfHouse> {
               borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
           ),
-          accountName: Text("$x"),
-          accountEmail: Text("$_email"),
+          accountName: Text(_username),
+          accountEmail: Text(_email),
         ),
         ListTile(
           title: Center(
