@@ -206,14 +206,13 @@ class _ListOfHouseState extends State<ListOfHouse> {
   }
 
   Widget _userdataWidget() {
+  map = userData.onPressed();
     if (map != null) {
       map.forEach((key, value) {
-        if(key == 'emailId')
-        _email = value;
-        if(key == 'displayName')
-        _username = value;
-       });
-    
+        if (key == 'emailId') _email = value.toString();
+        if (key == 'displayName') _username = value.toString();
+      });
+
       return Column(
         children: [
           SizedBox(
@@ -230,17 +229,17 @@ class _ListOfHouseState extends State<ListOfHouse> {
     }
   }
 
-  Map<String ,dynamic> map = new Map();
-  
-  @override
+  Map<String, dynamic> map = new Map();
+
+ /* @override
   void initState() {
-    userData.getInformation().then((results) {
+    userData.onPressed().then((results) {
       setState(() {
         map = results;
       });
     });
     super.initState();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
