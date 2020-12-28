@@ -206,12 +206,9 @@ class _ListOfHouseState extends State<ListOfHouse> {
   }
 
   Widget _userdataWidget() {
-  map = userData.onPressed();
-    if (map != null) {
-      map.forEach((key, value) {
-        if (key == 'emailId') _email = value.toString();
-        if (key == 'displayName') _username = value.toString();
-      });
+  _username = userData.onPressed();
+    if (_username != null) {
+      
 
       return Column(
         children: [
