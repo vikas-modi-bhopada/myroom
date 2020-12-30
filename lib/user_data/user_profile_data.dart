@@ -5,16 +5,9 @@ class UserData {
   var emaiId;
   var userName;
 
-  getInformation() async {
-    FirebaseAuth.instance.currentUser().then((value) async {
-      return await Firestore.instance
-          .collection('users')
-          .document(value.uid)
-          .get();
-    });
-  }
+  
 
-  onPressed(String string) {
+  getUserProfileData(String string) {
     if (string == "username") {
       FirebaseAuth.instance.currentUser().then((value) async {
         await Firestore.instance

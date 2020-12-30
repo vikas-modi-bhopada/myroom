@@ -280,64 +280,80 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
     return Container(
       child: Row(
         children: [
-          Expanded(
-              child: GestureDetector(
-            onTap: () {
-              /* UserData().getData();*/
-            },
-            child: Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              padding: EdgeInsets.all(8),
-              decoration: myBoxDecoration(),
-              child: _image == null
-                  ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-                  : Image.file(_image),
-            ),
-          )),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                _showPicker(context);
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                padding: EdgeInsets.all(8),
-                decoration: myBoxDecoration(),
-                child: _image == null
-                    ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-                    : Image.file(_image),
-              ),
-            ),
-          ),
+          expandedWidgetForFirstRoomImage(),
+          expandedWIdgetForSecondRoomImage(),
         ],
       ),
     );
+  }
+
+  Expanded expandedWIdgetForSecondRoomImage() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          _showPicker(context);
+        },
+        child: Container(
+          margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+          padding: EdgeInsets.all(8),
+          decoration: myBoxDecoration(),
+          child: _image == null
+              ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
+              : Image.file(_image),
+        ),
+      ),
+    );
+  }
+
+  Expanded expandedWidgetForFirstRoomImage() {
+    return Expanded(
+        child: GestureDetector(
+      onTap: () {
+        /* UserData().getData();*/
+      },
+      child: Container(
+        margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+        padding: EdgeInsets.all(8),
+        decoration: myBoxDecoration(),
+        child: _image == null
+            ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
+            : Image.file(_image),
+      ),
+    ));
   }
 
   Widget _saveDetailsButton() {
     return InkWell(
       onTap: () => //UserData().onPressed(),
           _uplodDetails(location, price, members, beds, bathroom, phoneNo),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xffdf8e33).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Save',
-          style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
-        ),
+      child: containerOfInkWellOfSaveDetailsButton(),
+    );
+  }
+
+  Container containerOfInkWellOfSaveDetailsButton() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 13),
+      alignment: Alignment.center,
+      decoration: boxDecorationWidgetForContainerOfSaveButton(),
+      child: Text(
+        'Save',
+        style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
       ),
     );
+  }
+
+  BoxDecoration boxDecorationWidgetForContainerOfSaveButton() {
+    return BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Color(0xffdf8e33).withAlpha(100),
+              offset: Offset(2, 4),
+              blurRadius: 8,
+              spreadRadius: 2)
+        ],
+        color: Colors.white);
   }
 
   @override
@@ -346,50 +362,60 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
     return Scaffold(
       body: Container(
           height: height,
-          child: Stack(
-            children: [
-              Positioned(
-                  top: -height * .15,
-                  right: -MediaQuery.of(context).size.width * .4,
-                  child: BezierContainer()),
-              Container(
-                child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 70),
-                        _title(),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        _locationlabel("Location"),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _pricelabel("Price"),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _residence(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _phonenumber("Phone Number"),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _uploadRoomImage(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _saveDetailsButton()
-                      ],
-                    )),
-              )
-            ],
-          )),
+          child: buildStackForChildOfContainerOfBuildWidget(height, context)),
     );
+  }
+
+  Stack buildStackForChildOfContainerOfBuildWidget(
+      double height, BuildContext context) {
+    return Stack(
+      children: [
+        buildPositionedWidgetForBezierContainer(height, context),
+        Container(
+          child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 70),
+                  _title(),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  _locationlabel("Location"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _pricelabel("Price"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _residence(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _phonenumber("Phone Number"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _uploadRoomImage(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _saveDetailsButton()
+                ],
+              )),
+        )
+      ],
+    );
+  }
+
+  Positioned buildPositionedWidgetForBezierContainer(
+      double height, BuildContext context) {
+    return Positioned(
+        top: -height * .15,
+        right: -MediaQuery.of(context).size.width * .4,
+        child: BezierContainer());
   }
 }

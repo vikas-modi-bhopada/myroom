@@ -45,90 +45,63 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () {
         Navigator.pop(context);
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            ),
-            Text('Back',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
-          ],
-        ),
-      ),
+      child: buildContainerForInkwellOfBackButton(),
     );
   }
 
-  /*Widget _entryField(String title, {bool isPassword = false}) {
+  Container buildContainerForInkwellOfBackButton() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
         children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          Container(
+            padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+            child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
           ),
-          SizedBox(
-            height: 13,
-          ),
-          TextFormField(
-            autofocus: true,
-            focusNode: FocusNode(),
-            obscureText: isPassword,
-            inputFormatters: [],
-            decoration: InputDecoration(
-              hintText: 'Enter $title',
-              border: InputBorder.none,
-              fillColor: Colors.grey[300],
-              filled: true,),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-
-              }
-
-              return null;
-            },
-
-
-
-          )
+          Text('Back',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
         ],
       ),
     );
   }
-*/
-  Widget _submitButton() {
+
+  
+  Widget _loginButton() {
     return InkWell(
       onTap: () {
         login();
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                  spreadRadius: 2)
-            ],
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
+      child: buildContainerForInkWellOfLoginButton(),
+    );
+  }
+
+  Container buildContainerForInkWellOfLoginButton() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      decoration: buildBoxDecorationForContainerOfLoginButton(),
+      child: Text(
+        'Login',
+        style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
+  }
+
+  BoxDecoration buildBoxDecorationForContainerOfLoginButton() {
+    return BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Colors.grey.shade200,
+              offset: Offset(2, 4),
+              blurRadius: 5,
+              spreadRadius: 2)
+        ],
+        gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [Color(0xfffbb448), Color(0xfff7892b)]));
   }
 
   Widget _divider() {
@@ -197,29 +170,33 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
-        padding: EdgeInsets.all(15),
-        alignment: Alignment.bottomCenter,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Don\'t have an account ?',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Register',
-              style: TextStyle(
-                  color: Color(0xfff79c4f),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
+      child: buildContainerForInkwellOfCreaeAccountLabel(),
+    );
+  }
+
+  Container buildContainerForInkwellOfCreaeAccountLabel() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.all(15),
+      alignment: Alignment.bottomCenter,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Don\'t have an account ?',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Register',
+            style: TextStyle(
+                color: Color(0xfff79c4f),
+                fontSize: 13,
+                fontWeight: FontWeight.w600),
+          ),
+        ],
       ),
     );
   }
@@ -227,107 +204,127 @@ class _LoginPageState extends State<LoginPage> {
   Widget _title() {
     return RichText(
       textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'R',
-          style: GoogleFonts.portLligatSans(
-            // ignore: deprecated_member_use
-            textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Color(0xffe46b10),
-          ),
-          children: [
-            TextSpan(
-              text: 'oo',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            ),
-            TextSpan(
-              text: 'mi',
-              style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
-            ),
-          ]),
+      text: buildTextSpanForTitleWidget(),
     );
+  }
+
+  TextSpan buildTextSpanForTitleWidget() {
+    return TextSpan(
+        text: 'R',
+        style: GoogleFonts.portLligatSans(
+          // ignore: deprecated_member_use
+          textStyle: Theme.of(context).textTheme.display1,
+          fontSize: 30,
+          fontWeight: FontWeight.w700,
+          color: Color(0xffe46b10),
+        ),
+        children: [
+          TextSpan(
+            text: 'oo',
+            style: TextStyle(color: Colors.black, fontSize: 30),
+          ),
+          TextSpan(
+            text: 'mi',
+            style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
+          ),
+        ]);
   }
 
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Email Id",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              TextFormField(
-                autofocus: true,
-                focusNode: FocusNode(),
-                obscureText: false,
-                inputFormatters: [],
-                decoration: InputDecoration(
-                  hintText: 'Enter Email Id',
-                  border: InputBorder.none,
-                  fillColor: Colors.grey[300],
-                  filled: true,
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-
-                  return null;
-                },
-                onChanged: (val) {
-                  email = val;
-                },
-              )
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Password",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              TextFormField(
-                autofocus: true,
-                focusNode: FocusNode(),
-                obscureText: true,
-                inputFormatters: [],
-                decoration: InputDecoration(
-                  hintText: 'Enter Password',
-                  border: InputBorder.none,
-                  fillColor: Colors.grey[300],
-                  filled: true,
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-
-                  return null;
-                },
-                onChanged: (val) {
-                  password = val;
-                },
-              )
-            ],
-          ),
-        ),
+        containerOfEmail(),
+        containerOfPassword(),
       ],
     );
+  }
+
+  Container containerOfPassword() {
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Password",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(
+              height: 13,
+            ),
+            textFormFieldForPassword()
+          ],
+        ),
+      );
+  }
+
+  TextFormField textFormFieldForPassword() {
+    return TextFormField(
+            autofocus: true,
+            focusNode: FocusNode(),
+            obscureText: true,
+            inputFormatters: [],
+            decoration: InputDecoration(
+              hintText: 'Enter Password',
+              border: InputBorder.none,
+              fillColor: Colors.grey[300],
+              filled: true,
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+
+              return null;
+            },
+            onChanged: (val) {
+              password = val;
+            },
+          );
+  }
+
+  Container containerOfEmail() {
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Email Id",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(
+              height: 13,
+            ),
+            textFormFieldForEmail()
+          ],
+        ),
+      );
+  }
+
+  TextFormField textFormFieldForEmail() {
+    return TextFormField(
+            autofocus: true,
+            focusNode: FocusNode(),
+            obscureText: false,
+            inputFormatters: [],
+            decoration: InputDecoration(
+              hintText: 'Enter Email Id',
+              border: InputBorder.none,
+              fillColor: Colors.grey[300],
+              filled: true,
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+
+              return null;
+            },
+            onChanged: (val) {
+              email = val;
+            },
+          );
   }
 
   @override
@@ -357,7 +354,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 30),
                       _emailPasswordWidget(),
                       SizedBox(height: 20),
-                      _submitButton(),
+                      _loginButton(),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         alignment: Alignment.centerRight,
