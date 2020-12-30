@@ -170,6 +170,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
           'Location': _location,
           'Price': _price,
           'Members': _members,
+          'BathRooms': _bathroom,
           'Beds': _beds,
           'Mobile': _phoneNo
         })
