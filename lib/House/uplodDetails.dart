@@ -18,28 +18,27 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   var beds;
   var phoneNo;
   var bathroom;
-  File _image;
+  File _image1;
+  File _image2;
 
-  _imgFromCamera() async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.camera, imageQuality: 50);
+  Future _imgFromCamera() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      _image = image;
+      _image1 = image;
     });
   }
 
-  _imgFromGallery() async {
+  Future _imgFromGallery() async {
     // ignore: deprecated_member_use
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      _image = image;
+      _image2 = image;
     });
   }
 
-  void _showPicker(context) {
+  /*void _showPicker(context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -67,7 +66,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
             ),
           );
         });
-  }
+  }*/
 
   Widget _locationlabel(String data) {
     return Container(
@@ -292,15 +291,15 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          _showPicker(context);
+          _imgFromCamera();
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
           padding: EdgeInsets.all(8),
           decoration: myBoxDecoration(),
-          child: _image == null
+          child: _image1 == null
               ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-              : Image.file(_image),
+              : Image.file(_image1),
         ),
       ),
     );
@@ -310,15 +309,15 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
     return Expanded(
         child: GestureDetector(
       onTap: () {
-        /* UserData().getData();*/
+        _imgFromGallery();
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
         padding: EdgeInsets.all(8),
         decoration: myBoxDecoration(),
-        child: _image == null
+        child: _image2 == null
             ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-            : Image.file(_image),
+            : Image.file(_image2),
       ),
     ));
   }
