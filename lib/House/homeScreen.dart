@@ -16,7 +16,7 @@ class ListOfHouse extends StatefulWidget {
 
 class _ListOfHouseState extends State<ListOfHouse> {
   UserData userData = new UserData();
-  DocumentSnapshot documentSnapshot;
+  QuerySnapshot querySnapshot;
 
   var _email;
   var _username;
@@ -76,28 +76,35 @@ class _ListOfHouseState extends State<ListOfHouse> {
   }
 
   ListView listViewForRoomList() {
-    return ListView.separated(
-        itemBuilder: (context, index) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              firstRowOfListView(),
-              SizedBox(
-                height: 12,
-              ),
-              secondRowOfListView(),
-              SizedBox(
-                height: 16,
-              ),
-              thirdRowOfListView()
-            ],
-          );
-        },
-        separatorBuilder: (context, index) => Divider(),
-        itemCount: 5);
+    if (querySnapshot != null) {
+      print(querySnapshot.documents.length);
+      return ListView.separated(
+          itemBuilder: (context, index) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                firstRowOfListView(index),
+                SizedBox(
+                  height: 12,
+                ),
+                secondRowOfListView(index),
+                SizedBox(
+                  height: 16,
+                ),
+                thirdRowOfListView(index)
+              ],
+            );
+          },
+          separatorBuilder: (context, index) => Divider(),
+          itemCount: querySnapshot.documents.length);
+    }
+    else{
+      print("query snapshot is null");
+      return null;
+    }
   }
 
-  Container thirdRowOfListView() {
+  Container thirdRowOfListView(int index) {
     return Container(
       margin: EdgeInsets.only(left: 32, right: 16),
       child: Row(
@@ -108,7 +115,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
             color: Colors.grey[600],
           ),
           Text(
-            "1234567899",
+           querySnapshot.documents[index].data['Mobile']     ,
             style: TextStyle(color: Colors.grey[600]),
           )
         ],
@@ -116,21 +123,21 @@ class _ListOfHouseState extends State<ListOfHouse> {
     );
   }
 
-  Container secondRowOfListView() {
+  Container secondRowOfListView(int index) {
     return Container(
       margin: EdgeInsets.only(left: 32, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          rowWidgetForNoOfPeople(),
-          rowWidgetForNoOfBeds(),
-          rowWidgetForNoOfBathRooms()
+          rowWidgetForNoOfPeople(index),
+          rowWidgetForNoOfBeds(index),
+          rowWidgetForNoOfBathRooms(index)
         ],
       ),
     );
   }
 
-  Row rowWidgetForNoOfBathRooms() {
+  Row rowWidgetForNoOfBathRooms(int index) {
     return Row(
       children: [
         Icon(
@@ -142,14 +149,14 @@ class _ListOfHouseState extends State<ListOfHouse> {
           width: 4,
         ),
         Text(
-          "2 BathRooms",
+          querySnapshot.documents[index].data['BathRooms']     ,
           style: TextStyle(color: Colors.grey[600]),
         )
       ],
     );
   }
 
-  Row rowWidgetForNoOfBeds() {
+  Row rowWidgetForNoOfBeds(int index) {
     return Row(
       children: [
         Icon(
@@ -161,14 +168,14 @@ class _ListOfHouseState extends State<ListOfHouse> {
           width: 4,
         ),
         Text(
-          "2 Beds",
+          querySnapshot.documents[index].data['Beds']     ,
           style: TextStyle(color: Colors.grey[600]),
         )
       ],
     );
   }
 
-  Row rowWidgetForNoOfPeople() {
+  Row rowWidgetForNoOfPeople(int index) {
     return Row(
       children: [
         Icon(
@@ -180,21 +187,21 @@ class _ListOfHouseState extends State<ListOfHouse> {
           width: 4,
         ),
         Text(
-          "5 people",
+          querySnapshot.documents[index].data['Members']     ,
           style: TextStyle(color: Colors.grey[600]),
         )
       ],
     );
   }
 
-  Row firstRowOfListView() {
+  Row firstRowOfListView(int index) {
     return Row(
       children: [
         containerOfImageOfRoomInListView(),
         SizedBox(
           width: 20,
         ),
-        widgetForLocationAndPrice(),
+        widgetForLocationAndPrice(index),
         IconButton(icon: Icon(Icons.navigation), onPressed: () {})
       ],
     );
@@ -216,31 +223,31 @@ class _ListOfHouseState extends State<ListOfHouse> {
     );
   }
 
-  Expanded widgetForLocationAndPrice() {
+  Expanded widgetForLocationAndPrice(int index) {
     return Expanded(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textWidgetForLocation(),
+        textWidgetForLocation(index),
         SizedBox(
           height: 8,
         ),
-        textWidgetForPriceOfRoom()
+        textWidgetForPriceOfRoom(index)
       ],
     ));
   }
 
-  Text textWidgetForPriceOfRoom() {
+  Text textWidgetForPriceOfRoom(int index) {
     return Text(
-      "3000 rs/month",
+      querySnapshot.documents[index].data['Price']     ,
       style: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18),
     );
   }
 
-  Text textWidgetForLocation() {
+  Text textWidgetForLocation(int index) {
     return Text(
-      "Indore",
+      querySnapshot.documents[index].data['Location']   ,
       style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.bold),
     );
   }
@@ -266,13 +273,32 @@ class _ListOfHouseState extends State<ListOfHouse> {
   }
 
   @override
+  void initState() {
+    UserData().getData().then((QuerySnapshot results) {
+      setState(() {
+        querySnapshot = results;
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBarForBuildWidget(),
       drawer: Theme(
           data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
           child: sideNav()),
-      body: _userdataWidget(),
+      // body: _userdataWidget(),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          searchBar(),
+          roomList()
+        ],
+      ),
     );
   }
 

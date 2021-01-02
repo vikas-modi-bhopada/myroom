@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auths/Widget/bezierContainer.dart';
+import 'package:flutter_auths/user_data/user_profile_data.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -326,8 +327,11 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
 
   Widget _saveDetailsButton() {
     return InkWell(
-      onTap: () => //UserData().onPressed(),
-          _uplodDetails(location, price, members, beds, bathroom, phoneNo),
+      onTap:  (){
+        _uplodDetails(location, price, members, beds, bathroom, phoneNo);
+        UserData().getData();
+      } //UserData().onPressed(),
+      ,    
       child: containerOfInkWellOfSaveDetailsButton(),
     );
   }

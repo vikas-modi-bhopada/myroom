@@ -34,12 +34,15 @@ class UserData {
     return emaiId;
   }
 
-  getData() {
-    Firestore.instance
+  getData() async {
+   return await Firestore.instance
+    .collection("RoomDetails")
+    .getDocuments();
+    /*Firestore.instance
         .collection("RoomDetails")
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) => print('${f.data}}'));
-    });
+    });*/
   }
 }
