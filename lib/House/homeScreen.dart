@@ -17,6 +17,7 @@ class ListOfHouse extends StatefulWidget {
 class _ListOfHouseState extends State<ListOfHouse> {
   UserData userData = new UserData();
   QuerySnapshot querySnapshot;
+  QuerySnapshot querySnapshot1;
 
   var _email;
   var _username;
@@ -265,28 +266,13 @@ class _ListOfHouseState extends State<ListOfHouse> {
     );
   }
 
-  Widget _userdataWidget() {
-    _username = userData.getUserProfileData("username");
-    _email = userData.getUserProfileData("emailid");
-    if (_username != null) {
-      return Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          searchBar(),
-          roomList()
-        ],
-      );
-    } else {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-  }
 
   @override
   void initState() {
+    FirebaseAuth.instance.currentUser().then((value) {
+      _email =value.email;
+      _username = value.displayName;
+    });
     UserData().getData(searchbarData).then((QuerySnapshot results) {
       setState(() {
         querySnapshot = results;
@@ -395,6 +381,8 @@ class _ListOfHouseState extends State<ListOfHouse> {
         ),
       ),
       accountName: Text('$_username'),
+
+      //Text('$_username'),
       accountEmail: Text('$_email'),
     );
   }
@@ -406,4 +394,6 @@ class _ListOfHouseState extends State<ListOfHouse> {
         child: Container(
             decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5))));
   }
+
+  
 }

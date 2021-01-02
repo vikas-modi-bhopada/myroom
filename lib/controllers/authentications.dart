@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter_auths/user_data/update.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -101,6 +102,10 @@ Future<FirebaseUser> signUp(String email, String password, String userNmae,
     AuthResult result = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
+    UserUpdateInfo updateInfo = UserUpdateInfo();
+   updateInfo.displayName = userNmae;
+    user.updateProfile(updateInfo);
+    user.reload();
     Firestore.instance.collection('users').document(user.uid).setData(
         {'userid': user.uid, 'displayName': userNmae, 'emailId': email});
 
