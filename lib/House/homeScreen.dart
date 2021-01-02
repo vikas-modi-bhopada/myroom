@@ -20,6 +20,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
 
   var _email;
   var _username;
+  var searchbarData;
 
   Widget profilePicture() {
     return Container(
@@ -56,12 +57,25 @@ class _ListOfHouseState extends State<ListOfHouse> {
               Icons.search,
               color: Colors.grey[500],
             ),
-            suffixIcon: Icon(
+            suffixIcon: IconButton(
+              icon: Icon(Icons.filter_list),
+              onPressed: () {
+                UserData().getData(searchbarData).then((QuerySnapshot results) {
+                  setState(() {
+                    querySnapshot = results;
+                  });
+                });
+              },
+            ),
+            /*Icon(
               Icons.filter_list,
               color: Colors.lightGreen,
-            ),
+            ),*/
             hintText: "Indore",
             focusColor: Colors.green),
+        onChanged: (value) {
+          searchbarData = value;
+        },
       ),
     );
   }
@@ -97,8 +111,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
           },
           separatorBuilder: (context, index) => Divider(),
           itemCount: querySnapshot.documents.length);
-    }
-    else{
+    } else {
       print("query snapshot is null");
       return null;
     }
@@ -115,7 +128,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
             color: Colors.grey[600],
           ),
           Text(
-           querySnapshot.documents[index].data['Mobile']     ,
+            querySnapshot.documents[index].data['Mobile'],
             style: TextStyle(color: Colors.grey[600]),
           )
         ],
@@ -149,7 +162,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
           width: 4,
         ),
         Text(
-          querySnapshot.documents[index].data['BathRooms']     ,
+          querySnapshot.documents[index].data['BathRooms'],
           style: TextStyle(color: Colors.grey[600]),
         )
       ],
@@ -168,7 +181,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
           width: 4,
         ),
         Text(
-          querySnapshot.documents[index].data['Beds']     ,
+          querySnapshot.documents[index].data['Beds'],
           style: TextStyle(color: Colors.grey[600]),
         )
       ],
@@ -187,7 +200,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
           width: 4,
         ),
         Text(
-          querySnapshot.documents[index].data['Members']     ,
+          querySnapshot.documents[index].data['Members'],
           style: TextStyle(color: Colors.grey[600]),
         )
       ],
@@ -239,7 +252,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
 
   Text textWidgetForPriceOfRoom(int index) {
     return Text(
-      querySnapshot.documents[index].data['Price']     ,
+      querySnapshot.documents[index].data['Price'],
       style: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18),
     );
@@ -247,7 +260,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
 
   Text textWidgetForLocation(int index) {
     return Text(
-      querySnapshot.documents[index].data['Location']   ,
+      querySnapshot.documents[index].data['Location'],
       style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.bold),
     );
   }
@@ -274,7 +287,7 @@ class _ListOfHouseState extends State<ListOfHouse> {
 
   @override
   void initState() {
-    UserData().getData().then((QuerySnapshot results) {
+    UserData().getData(searchbarData).then((QuerySnapshot results) {
       setState(() {
         querySnapshot = results;
       });

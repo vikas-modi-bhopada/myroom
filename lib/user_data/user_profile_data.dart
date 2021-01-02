@@ -34,9 +34,10 @@ class UserData {
     return emaiId;
   }
 
-  getData() async {
+  getData(dynamic searchbarData) async {
    return await Firestore.instance
     .collection("RoomDetails")
+    .where('Location',isEqualTo: searchbarData)
     .getDocuments();
     /*Firestore.instance
         .collection("RoomDetails")

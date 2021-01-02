@@ -329,7 +329,7 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
     return InkWell(
       onTap:  (){
         _uplodDetails(location, price, members, beds, bathroom, phoneNo);
-        UserData().getData();
+       // UserData().getData();
       } //UserData().onPressed(),
       ,    
       child: containerOfInkWellOfSaveDetailsButton(),
