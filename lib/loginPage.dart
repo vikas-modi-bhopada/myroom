@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_auths/forgotPasswordPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auths/House/homeScreen.dart';
 import 'package:flutter_auths/Widget/bezierContainer.dart';
@@ -65,7 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  
   Widget _loginButton() {
     return InkWell(
       onTap: () {
@@ -241,90 +241,90 @@ class _LoginPageState extends State<LoginPage> {
 
   Container containerOfPassword() {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Password",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            SizedBox(
-              height: 13,
-            ),
-            textFormFieldForPassword()
-          ],
-        ),
-      );
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Password",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          SizedBox(
+            height: 13,
+          ),
+          textFormFieldForPassword()
+        ],
+      ),
+    );
   }
 
   TextFormField textFormFieldForPassword() {
     return TextFormField(
-            autofocus: true,
-            focusNode: FocusNode(),
-            obscureText: true,
-            inputFormatters: [],
-            decoration: InputDecoration(
-              hintText: 'Enter Password',
-              border: InputBorder.none,
-              fillColor: Colors.grey[300],
-              filled: true,
-            ),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
+      autofocus: true,
+      focusNode: FocusNode(),
+      obscureText: true,
+      inputFormatters: [],
+      decoration: InputDecoration(
+        hintText: 'Enter Password',
+        border: InputBorder.none,
+        fillColor: Colors.grey[300],
+        filled: true,
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter some text';
+        }
 
-              return null;
-            },
-            onChanged: (val) {
-              password = val;
-            },
-          );
+        return null;
+      },
+      onChanged: (val) {
+        password = val;
+      },
+    );
   }
 
   Container containerOfEmail() {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Email Id",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            SizedBox(
-              height: 13,
-            ),
-            textFormFieldForEmail()
-          ],
-        ),
-      );
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Email Id",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          SizedBox(
+            height: 13,
+          ),
+          textFormFieldForEmail()
+        ],
+      ),
+    );
   }
 
   TextFormField textFormFieldForEmail() {
     return TextFormField(
-            autofocus: true,
-            focusNode: FocusNode(),
-            obscureText: false,
-            inputFormatters: [],
-            decoration: InputDecoration(
-              hintText: 'Enter Email Id',
-              border: InputBorder.none,
-              fillColor: Colors.grey[300],
-              filled: true,
-            ),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
+      autofocus: true,
+      focusNode: FocusNode(),
+      obscureText: false,
+      inputFormatters: [],
+      decoration: InputDecoration(
+        hintText: 'Enter Email Id',
+        border: InputBorder.none,
+        fillColor: Colors.grey[300],
+        filled: true,
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter some text';
+        }
 
-              return null;
-            },
-            onChanged: (val) {
-              email = val;
-            },
-          );
+        return null;
+      },
+      onChanged: (val) {
+        email = val;
+      },
+    );
   }
 
   @override
@@ -355,13 +355,7 @@ class _LoginPageState extends State<LoginPage> {
                       _emailPasswordWidget(),
                       SizedBox(height: 20),
                       _loginButton(),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        alignment: Alignment.centerRight,
-                        child: Text('Forgot Password ?',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w500)),
-                      ),
+                      forgetPasswordContainer(),
                       _divider(),
                       _facebookButton(),
                       // SizedBox(height: height * .01),
@@ -374,5 +368,21 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ));
+  }
+
+  Container forgetPasswordContainer() {
+   return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      alignment: Alignment.centerRight,
+      child: FlatButton(
+              child: Text('Forgot Password ?',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+            onPressed: (){
+              Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ForgotPassword()));
+     
+            },
+      ),
+    );
   }
 }
