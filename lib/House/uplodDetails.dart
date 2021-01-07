@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:flutter_auths/Widget/bezierContainer.dart';
 import 'package:flutter_auths/user_data/user_profile_data.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +21,8 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   var phoneNo;
   var bathroom;
   File _image;
+  Image image1;
+  Image image2;
 
   _imgFromCamera() async {
     File image = await ImagePicker.pickImage(
@@ -39,7 +42,6 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
       _image = image;
     });
   }
-
 
   void _showPicker(context) {
     showModalBottomSheet(
@@ -293,16 +295,19 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   Expanded expandedWIdgetForSecondRoomImage() {
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          _showPicker(context);
+        onTap: () async {
+          final _image = await FlutterWebImagePicker.getImage;
+          setState(() {
+            image2 = _image;
+          });
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
           padding: EdgeInsets.all(8),
           decoration: myBoxDecoration(),
-          child: _image == null
-              ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-              : Image.file(_image),
+          child: image2 != null
+              ? image2
+              : Icon(Icons.upload_file, size: 50, color: Colors.blueGrey),
         ),
       ),
     );
@@ -311,27 +316,34 @@ class _UploadRoomDetailsState extends State<UploadRoomDetails> {
   Expanded expandedWidgetForFirstRoomImage() {
     return Expanded(
         child: GestureDetector(
-      onTap: () {
-        /* UserData().getData();*/
+      onTap: () async {
+        final _image = await FlutterWebImagePicker.getImage;
+        setState(() {
+          image1 = _image;
+        });
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
         padding: EdgeInsets.all(8),
         decoration: myBoxDecoration(),
-        child: _image == null
+        child: image1 != null
+            ? image1
+            : Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
+        /*_image == null
             ? Icon(Icons.upload_file, size: 50, color: Colors.blueGrey)
-            : Image.file(_image),
+            : Image.file(_image)*/
+        ,
       ),
     ));
   }
 
   Widget _saveDetailsButton() {
     return InkWell(
-      onTap:  (){
+      onTap: () {
         _uplodDetails(location, price, members, beds, bathroom, phoneNo);
-       // UserData().getData();
+        // UserData().getData();
       } //UserData().onPressed(),
-      ,    
+      ,
       child: containerOfInkWellOfSaveDetailsButton(),
     );
   }
