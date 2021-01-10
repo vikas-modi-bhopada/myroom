@@ -266,11 +266,10 @@ class _ListOfHouseState extends State<ListOfHouse> {
     );
   }
 
-
   @override
   void initState() {
     FirebaseAuth.instance.currentUser().then((value) {
-      _email =value.email;
+      _email = value.email;
       _username = value.displayName;
     });
     UserData().getData(searchbarData).then((QuerySnapshot results) {
@@ -394,6 +393,4 @@ class _ListOfHouseState extends State<ListOfHouse> {
         child: Container(
             decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5))));
   }
-
-  
 }
